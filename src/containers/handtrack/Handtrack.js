@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from './handtrack.css';
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
@@ -7,11 +7,12 @@ import Webcam from "react-webcam"
 export default function Handtrack() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const [handPos, setHandPos] = useState(null);
 
   const runHandpose = async() =>{
     const net = await handpose.load();
     console.log('Handpose model loaded'); 
-    setInterval(()=>{detect(net)}, 100);
+    setInterval(()=>{detect(net)}, 250);
   }
 
   const detect = async(net) => {
@@ -27,6 +28,7 @@ export default function Handtrack() {
       canvasRef.current.height = videoHeight;
       // Model predictions
       const hand = await net.estimateHands(video);
+      setHandPos(hand);
       console.log(hand);
       // Drawing hand
       const ctx = canvasRef.current.getContext("2d");
@@ -37,13 +39,7 @@ export default function Handtrack() {
   const drawHand = (predictions, ctx) => {
     // Check if we have predictions
     if (predictions.length > 0) {
-      const topLeft = predictions[0].boundingBox.topLeft;
-      const width = topLeft[0] - predictions[0].boundingBox.bottomRight[0];
-      const height = topLeft[1] - predictions[0].boundingBox.bottomRight[1];
-      ctx.beginPath();
-      ctx.rect(topLeft[0], topLeft[1], Math.abs(width), Math.abs(height));
-      ctx.strokeStyle = "black";
-      ctx.stroke();
+      /*
       // Loop through each prediction
       predictions.forEach((prediction) => {
         const landmarks = prediction.landmarks;
@@ -54,7 +50,12 @@ export default function Handtrack() {
           ctx.arc(landmarks[i][0], landmarks[i][1], 5, 0, 3 * Math.PI);
           ctx.fill();
         }
-      });
+      });*/
+      ctx.beginPath();
+      ctx.fillStyle = "red";
+      ctx.arc(Math.abs(640-predictions[0].landmarks[0][0]), predictions[0].landmarks[0][1], 5, 0, 3 * Math.PI);
+      ctx.fill();
+
       
     }
   };
@@ -64,7 +65,7 @@ export default function Handtrack() {
 
   return (
     <div className={styles.container}>
-      <Webcam ref={webcamRef} style={{
+      <Webcam ref={webcamRef} mirrored={true} style={{
         position:"absolute",
         marginLeft:"auto",
         marginRight:"auto",
@@ -72,8 +73,8 @@ export default function Handtrack() {
         right:0,
         textAlign:"center",
         zIndex:9,
-        width:640,
-        height:480
+        width:320,
+        height:240
       }}></Webcam>
       <canvas ref={canvasRef} style={{
         position:"absolute",
@@ -83,8 +84,8 @@ export default function Handtrack() {
         right:0,
         textAlign:"center",
         zIndex:9,
-        width:640,
-        height:480
+        width:320,
+        height:240
       }}></canvas>
     </div>
   )

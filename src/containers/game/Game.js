@@ -2,10 +2,10 @@ import { color } from '@chakra-ui/styled-system';
 import React from 'react'
 import Sketch from 'react-p5'
 
-function Game() {
+function Game(params) {
     //width and height of monitor
-    const WIDTH = 700;
-    const HEIGHT = 700;
+    const WIDTH = 600;
+    const HEIGHT = 600;
     
     //background variables
     var c1,c2
@@ -60,7 +60,7 @@ function Game() {
 
         //movement
         updateBallPosition();
-        console.log(ballXPos + " " + ballYPos);
+        console.log(handPos);
     }
 
 

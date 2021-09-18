@@ -36,11 +36,9 @@ export default function App({ Component }) {
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/handtrack">
-            <Handtrack />
-          </Route>
           <Route path="/game">
-            <Game />
+            <Game data={Handtrack.handPos}/>
+            <Handtrack />
           </Route>
         </Switch>
       </Router>
