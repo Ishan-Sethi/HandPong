@@ -1,11 +1,17 @@
-import Image from 'next/image'
-import {} from '@chakra-ui/react'
-import { Center } from "@chakra-ui/react"
+import { Flex, Center, Text } from "@chakra-ui/react"
 
 export default function Home() {
   return (
-    <Center bg="brand.900" w="100%" h="100%" color="brand.400">
-      Hey
-    </Center>
+    <Flex minH="100vh" height="100vh" color="brand.700">
+      <Center minH="100vh" height="100vh" w="20%" bg="brand.400" >
+        <Text>Test 1</Text>
+      </Center>
+      <Center minH="100vh" height="100vh" w="50%" bg="brand.500" >
+        <Text>Test 2</Text>
+      </Center>
+      <Center minH="100vh" height="100vh" w="30%" bg="brand.600" >
+        <Text>Test 3</Text>
+      </Center>
+    </Flex>
   )
 }
