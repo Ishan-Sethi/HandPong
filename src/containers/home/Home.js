@@ -6,9 +6,8 @@ import {
   Input,
   HStack
 } from "@chakra-ui/react"
-import { io } from "socket.io-client";
-
-const socket = io();
+var clientio = require('socket.io-client')
+var socket = clientio();
 
 function ButtonSend(props) {
   return (
