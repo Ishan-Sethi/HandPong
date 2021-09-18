@@ -2,17 +2,23 @@ import '../styles/globals.css'
 import Head from 'next/head'
 import { ChakraProvider , extendTheme } from "@chakra-ui/react"
 
-const colors = {
-  brand: {
-    400: "#defffc",
-    500: "#e2e4f6",
-    600: "#e7c8dd",
-    700: "#dbafc1",
-    800: "#c98ecd",
-    900: "#86626e",
+const theme = extendTheme({
+  colors: {
+    brand: {
+      400: "#defffc",
+      500: "#e2e4f6",
+      600: "#e7c8dd",
+      700: "#dbafc1",
+      800: "#c98ecd",
+      900: "#86626e",
+    },
+    button: {
+      500: "#c98ecd",
+      600: "#e7c8dd",
+      700: "#e7c8dd",
+    },
   },
-}
-const theme = extendTheme({ colors })
+})
 
 function MyApp({ Component, pageProps }) {
   return (
