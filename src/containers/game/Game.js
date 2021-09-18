@@ -18,15 +18,19 @@ function Game(params) {
 
     //player1 variables
     var p1X=10;
-    var p1Y=350;
+    var p1Y=250;
 
     //player2 variables
-
+    var p2X=580;
+    var p2Y=250;
 
     //player3 variables
-
+    var p3X=250;
+    var p3Y=10;
 
     //player4 variables
+    var p4X=250;
+    var p4Y=580;
 
 
 
@@ -48,15 +52,40 @@ function Game(params) {
     const draw = p5 => {
         //bg
         p5.noStroke();
-        p5.background(222,255,252);
+        p5.background(126, 90, 155);
 
-        p5.rect(10, 200, 50,50);
+        //background gradient
+        for (let i = 0; i <175; i++) {
+            p5.fill (i+25,i+25,20,65);
+            p5.rect(0,4*i,600,4);
+        }
+
+        //Score for player playing **DELETE WHEN DONE
+        //MAKE SURE TO MAKE THIS VISIBLE FOR EACH PALYER
+        //FOR THEIR OWN INDIVIDUAL SCORE**
+         p5.fill (245, 236, 205,20);
+         p5.textSize (400);
+         p5.textFont ('sans-serif');
+         p5.text ('5',190,440);
+
+
+        //ball and paddle colors
+        p5.fill(255,255,255);
 
         //ball
         p5.ellipse(ballXPos, ballYPos, 20);
 
         //player1 paddle
-        p5.rect(p1X,p1Y, 10,100);
+        p5.rect(p1X,p1Y, 10,100, 10);
+
+        //player2 paddle
+        p5.rect(p2X,p2Y, 10,100, 10);
+
+        //player3 paddle
+        p5.rect(p3X,p3Y, 100,10, 10);
+
+        //player4 paddle
+        p5.rect(p4X,p4Y, 100,10, 10);
 
         //movement
         updateBallPosition();
