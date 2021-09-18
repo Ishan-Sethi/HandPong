@@ -7,8 +7,8 @@ import {
   Link
 } from "react-router-dom";
 
-import Home from './components/home/Home'
-import Handtrack from './components/handtrack/Handtrack'
+import Home from './containers/home/Home'
+import Handtrack from './containers/handtrack/Handtrack'
 
 const theme = extendTheme({
   colors: {
