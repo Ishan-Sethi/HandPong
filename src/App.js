@@ -1,7 +1,14 @@
 import * as React from "react"
 import { ChakraProvider , extendTheme } from "@chakra-ui/react"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-import Home from './components/Home/Home'
+import Home from './components/home/Home'
+import Handtrack from './components/handtrack/Handtrack'
 
 const theme = extendTheme({
   colors: {
@@ -21,11 +28,19 @@ const theme = extendTheme({
   },
 })
 
-
 export default function App({ Component }) {
   return (
     <ChakraProvider theme={theme}>
-      <Home />
+      <Router>
+        <Switch>
+          <Route path="/home">
+            <Home />
+          </Route>
+          <Route path="/handtrack">
+            <Handtrack />
+          </Route>
+        </Switch>
+      </Router>
     </ChakraProvider>
   )
 }
