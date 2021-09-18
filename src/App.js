@@ -9,7 +9,7 @@ import {
 
 import Home from './containers/home/Home'
 import Handtrack from './containers/handtrack/Handtrack'
-
+import Game from './containers/game/Game'
 const theme = extendTheme({
   colors: {
     brand: {
@@ -38,6 +38,9 @@ export default function App({ Component }) {
           </Route>
           <Route path="/handtrack">
             <Handtrack />
+          </Route>
+          <Route path="/game">
+            <Game />
           </Route>
         </Switch>
       </Router>
