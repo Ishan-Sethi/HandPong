@@ -3,10 +3,12 @@ import {
   Center, 
   Text, 
   Button, 
-  FormControl, 
   Input,
   HStack
 } from "@chakra-ui/react"
+import { io } from "socket.io-client";
+
+const socket = io();
 
 function ButtonSend(props) {
   return (
@@ -16,6 +18,7 @@ function ButtonSend(props) {
         size="lg" 
         colorScheme="button" 
         color="white"
+        onClick={props.function}
       >
         {props.text}
       </Button>  
@@ -23,11 +26,11 @@ function ButtonSend(props) {
   )
 }
 
-export default function Home() {
+function Home() {
   return (
     <Flex 
       minH="100vh" 
-      h="100vh" 
+      h="100vh"   
       direction="column" 
       justifyContent="center"
       bg="brand.500"
@@ -36,7 +39,7 @@ export default function Home() {
         <Text fontSize="5xl" color="brand.900">TITLE TEXT IPSUM</Text>
       </Center>
 
-      <ButtonSend text="Create a Lobby!"/>
+      <ButtonSend text="Create a Lobby!" function={()=>socket.emit("newRoom")}/>
 
       <Center>
         <Text fontSize="2xl" color="brand.900">or</Text>
@@ -63,3 +66,5 @@ export default function Home() {
     </Flex>
   )
 }
+
+export default Home
