@@ -16,7 +16,7 @@ function Game(params) {
     const runHandpose = async() =>{
         const net = await handpose.load();
         console.log('Handpose model loaded'); 
-        setInterval(()=>{detect(net)}, 250);
+        setInterval(()=>{detect(net)}, 50);
       }
 
     // Checking for the hand position
@@ -71,8 +71,8 @@ function Game(params) {
     var c1,c2
 
     //ball varaibles
-    var ballXVel = 2;
-    var ballYVel = 2;
+    var ballXVel = 10;
+    var ballYVel = 10;
     var ballXPos = WIDTH/2;
     var ballYPos = HEIGHT/2;
 
@@ -104,7 +104,7 @@ function Game(params) {
     }
 
     function checkCollision() {
-        if (ballXPos <= (p4X + 50) && ballXPos >= (p4X - 50) && ballYPos <= (p4Y + 7) && ballYPos >= (p4Y - 7)){
+        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y){
             console.log("IM HIT IM HIT IM HIT")
             return true;
         } else{
