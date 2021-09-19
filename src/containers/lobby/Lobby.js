@@ -10,16 +10,16 @@ import {
 } from "@chakra-ui/react"
 import { useState } from 'react';
 import socket from '../../store/socket'
-import ButtonSend from '../home/Home'
+import { ButtonSend } from '../home/Home'
 
-export default function Lobby() {
+function Lobby() {
     return (
         <Flex
             minH="100vh" //styling, react shortens, minimum height
             h="100vh" //height - 100 viewport height
             direction="column"
             justifyContent="center"
-            bg="brand.500" //background colour
+            bg="brand.600" //background colour
         >
             <HStack spacing="12px">
                 <Center>
@@ -36,3 +36,5 @@ export default function Lobby() {
         </Flex>
     )
 }
+
+export default Lobby

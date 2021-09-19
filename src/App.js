@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 import Home from './containers/home/Home'
-import Game from './containers/game/Game'
 import Lobby from './containers/lobby/Lobby'
+import Game from './containers/game/Game'
 
 const theme = extendTheme({
   colors: {
