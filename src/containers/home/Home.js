@@ -8,16 +8,20 @@ import {
 } from "@chakra-ui/react"
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
-import socket from '../../store/socket'
+import { socket } from '../../store/socket'
 
 export function ButtonSend(props) {
   const [pressed, setPressed] = useState(false);
   const history = useHistory();
 
   const handleClick = () => {
-    setPressed(true);
+    if(!props.noLoad) {
+      setPressed(true);
+    }
     props.function();
-    history.push(props.destination);
+    if(props.destination) {
+      history.push(props.destination);
+    }
   }
 
   return (

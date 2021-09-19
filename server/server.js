@@ -31,7 +31,7 @@ io.on('connection', client => {
         client.number = 1;
         client.emit('init', 1);
 
-        console.log(lobbyCode)
+        console.log(state[lobbyCode])
     }
     
     function handleJoinGame(lobbyName) {
@@ -68,15 +68,22 @@ io.on('connection', client => {
         console.log(client.number)
     }
 
-    function handleChangeName() {
-        
+    function handleChangeName(name) {
+        if (name.length > 10) return;
+
+        var lobbyCode = clientRooms[client.id];
+        var playerId = client.number;
+
+        state[lobbyCode].players[playerId].username = name;
+        client.emit("recieve_state", JSON.stringify(state[lobbyCode]) );
+
+        console.log(state[lobbyCode].players[playerId].username)
     }
 
     function handleStartGame(type) {
         switch(type) {
             case "pong":
                 state[lobbyCode] = initPong(state[lobbyCode]);
-                
                 startGameInterval(lobbyCode);
             default:
                 console.log("can't start");
