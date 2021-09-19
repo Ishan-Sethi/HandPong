@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 
 import Home from './containers/home/Home'
-import Handtrack from './containers/handtrack/Handtrack'
 import Game from './containers/game/Game'
 const theme = extendTheme({
   colors: {
@@ -37,8 +36,7 @@ export default function App({ Component }) {
             <Home />
           </Route>
           <Route path="/game">
-            <Game data={Handtrack.handPos}/>
-            <Handtrack />
+            <Game/>
           </Route>
         </Switch>
       </Router>
