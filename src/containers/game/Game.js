@@ -9,15 +9,16 @@ import { socket, GAME_CODE } from '../../store/socket'
 const WIDTH = 600;
 const HEIGHT = 600;
 
+var gameState = {};
+socket.emit("getState")
+socket.on("recieveState", (state)=>{
+    gameState=JSON.parse(state)
+    console.log(gameState)
+})
+
 function Game() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
-    var [game, setGame] = useState({});
-
-    useEffect(()=>{
-        socket.emit("getState")
-        socket.on("recieveState", (state)=>setGame( JSON.parse(state) ))
-    }, [game])
     
     const setup = (p5, canvasParentRef) => {
         p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
@@ -45,13 +46,13 @@ function Game() {
         p5.fill(255,255,255);
 
         //ball
-        p5.ellipse(game.ball.pos[0], game.ball.pos[1], 20);
+        p5.ellipse(gameState.ball.pos[0], gameState.ball.pos[1], 20);
 
         //player paddles
-        p5.rect(game.players[0].pos[0], game.players[0].pos[1], 10, 100, 10);
-        p5.rect(game.players[1].pos[0], game.players[1].pos[1], 10, 100, 10);
-        p5.rect(game.players[2].pos[0], game.players[2].pos[1], 100, 10, 10);
-        p5.rect(game.players[3].pos[0], game.players[3].pos[1], 100, 10, 10);
+        p5.rect(gameState.players[0].pos[0], gameState.players[0].pos[1], 10, 100, 10);
+        p5.rect(gameState.players[1].pos[0], gameState.players[1].pos[1], 10, 100, 10);
+        p5.rect(gameState.players[2].pos[0], gameState.players[2].pos[1], 100, 10, 10);
+        p5.rect(gameState.players[3].pos[0], gameState.players[3].pos[1], 100, 10, 10);
     }
 
     // Running hand tracking model

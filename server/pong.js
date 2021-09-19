@@ -7,7 +7,7 @@ function updateBallPosition(state) {
     if (state.ball.pos[0] > state.canvasSize.width-10 || state.ball.pos[0] < 10){
         state.ball.vel[0] *= -1;
     }
-    if (state.ball.pos[1] > state.canvasSize.height-10 || state.ball.pos[0] < 0){
+    if (state.ball.pos[1] > state.canvasSize.height-10 || state.ball.pos[1] < 0){
         state.ball.vel[1] *= -1;
     }
 

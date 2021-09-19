@@ -120,7 +120,6 @@ function startGameInterval(roomCode) {
     const intervalId = setInterval(() => {
         updateBallPosition(state[roomCode]);
         emitRecieveState(roomCode);
-        console.log(state[roomCode])
     }, 1000 / FRAME_RATE);
 }
 
