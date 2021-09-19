@@ -25,8 +25,7 @@ io.on('connection', client => {
 
     function handleGetState() {
         var lobbyCode = clientRooms[client.id];
-        io.sockets.in(lobbyCode)
-            .emit("recieveState", JSON.stringify(state[lobbyCode]));
+        emitRecieveState(lobbyCode);
     }
 
     function handleNewGame() {
@@ -42,7 +41,6 @@ io.on('connection', client => {
         client.emit('init', lobbyCode);
 
         console.log(state[lobbyCode])
-        
     }
     
     function handleJoinGame(lobbyName) {
@@ -90,17 +88,13 @@ io.on('connection', client => {
 
         state[lobbyCode].players[playerId-1].username = name;
 
-        io.sockets.in(lobbyCode)
-            .emit("recieveState", JSON.stringify(state[lobbyCode]));
-
-        console.log(state[lobbyCode])
+        emitRecieveState(lobbyCode);
     }
 
     function handleStartGame() {
         var lobbyCode = clientRooms[client.id];
         state[lobbyCode] = initPong(state[lobbyCode]);
-        io.sockets.in(lobbyCode)
-            .emit("recieveState", JSON.stringify(state[lobbyCode]));
+        emitRecieveState(lobbyCode);
         startGameInterval(lobbyCode);
     }
 
@@ -112,9 +106,14 @@ io.on('connection', client => {
 function startGameInterval(roomCode) {
     const intervalId = setInterval(() => {
         updateBallPosition(state[roomCode]);
-        io.sockets.in(roomCode)
-            .emit("recieveState", JSON.stringify(state[lobbyCode]));
+        emitRecieveState(roomCode);
+        console.log(state[roomCode])
     }, 1000 / FRAME_RATE);
+}
+
+function emitRecieveState(roomCode) {
+    io.sockets.in(roomCode)
+        .emit("recieveState", JSON.stringify(state[roomCode]));
 }
 
 server.listen(PORT, () => { 

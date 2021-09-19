@@ -27,7 +27,7 @@ function initPong(lobby) {
     var pongState = {
         players: [],
         canvasSize: {width: 600, height: 600},
-        ball: {pos: [300, 300], vel: [10, 10]}, //change vel later
+        ball: {pos: [300, 300], vel: [1, 1]}, //change vel later
     }
 
     for(let i = 0; i < 4; i++) {

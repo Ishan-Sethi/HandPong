@@ -6,6 +6,9 @@ import Webcam from "react-webcam"
 
 import { socket, GAME_CODE } from '../../store/socket'
 
+const WIDTH = 600;
+const HEIGHT = 600;
+
 function Game(params) {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
@@ -14,11 +17,11 @@ function Game(params) {
     useEffect(()=>{
         socket.emit("getState")
         socket.on("recieveState", (state)=>setGame( JSON.parse(state) ))
+        console.log(game)
     }, [])
     
     const setup = (p5, canvasParentRef) => {
-        console.log(game);
-        p5.createCanvas(game.canvasSize.width, game.canvasSize.height).parent(canvasParentRef)
+        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
     }
 
     const draw = p5 => {
