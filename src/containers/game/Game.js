@@ -101,11 +101,65 @@ function Game() {
           ctx.arc(Math.abs(640-predictions[0].landmarks[0][0]), predictions[0].landmarks[0][1], 5, 0, 3 * Math.PI);
           ctx.fill();
 
-          let pX = Math.abs(640-predictions[0].landmarks[0][0]) - 100;
-          socket.emit("movement", pX);
+    function checkCollision() {
+        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y){
+            console.log("IM HIT IM HIT IM HIT")
+            return true;
+        } else{
+            return false;
         }
     }
-    runHandpose();
+
+    const setup = (p5, canvasParentRef) => {
+        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
+    }
+
+    const draw = p5 => {
+        //bg
+        p5.noStroke();
+        p5.background(126, 90, 155);
+
+        //background gradient
+        for (let i = 0; i <175; i++) {
+            p5.fill (i+25,i+25,20,65);
+            p5.rect(0,4*i,600,4);
+        }
+
+        //Score for player playing **DELETE WHEN DONE
+        //MAKE SURE TO MAKE THIS VISIBLE FOR EACH PALYER
+        //FOR THEIR OWN INDIVIDUAL SCORE**
+         p5.fill (245, 236, 205,20);
+         p5.textSize (400);
+         p5.textFont ('sans-serif');
+         p5.text ('5',190,440);
+
+
+        //ball and paddle colors
+        p5.fill(255,255,255);
+
+        //ball
+        p5.ellipse(ballXPos, ballYPos, 20);
+
+        //player1 paddle
+        p5.rect(p1X,p1Y, 10,100, 10);
+
+        //player2 paddle
+        p5.rect(p2X,p2Y, 10,100, 10);
+
+        //player3 paddle
+        p5.rect(p3X,p3Y, 100,10, 10);
+
+        //player4 paddle
+        p5.rect(p4X,p4Y, 100,10, 10);
+
+        //movement
+        updateBallPosition();
+
+        if (checkCollision()) {
+            ballYVel *= -1;
+        }
+    }
+
 
     return (
         <div>
