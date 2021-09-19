@@ -92,13 +92,20 @@ function Game(params) {
     var p4X=250;
     var p4Y=580;
 
+    var p1Score = 5;
+    var p2Score = 5;
+    var p3Score = 5;
+    var p4Score = 5;
+
+    function resetBall() {
+        //ball varaibles
+         ballXVel = 12;
+         ballYVel = 12;
+         ballXPos = WIDTH/2 - 5;
+         ballYPos = 100;
+    }
+
     function updateBallPosition() {
-        if (ballXPos > WIDTH-10 || ballXPos < 10){
-            ballXVel *= -1;
-        }
-        if (ballYPos > HEIGHT-10 || ballYPos < 0){
-            ballYVel *= -1;
-        }
         ballXPos += ballXVel;
         ballYPos += ballYVel;
         // Top Player
@@ -127,7 +134,22 @@ function Game(params) {
                 p1Y -= 20 * Math.random();
             }
         p1Y += (5 * (Math.random() - 0.5));
-        
+        if (ballXPos > WIDTH-10){
+            p2Score--;
+            resetBall();
+        }
+        if (ballXPos < 10) {
+            p1Score--;
+            resetBall();
+        }
+        if (ballYPos > HEIGHT-10){
+            p4Score--;
+            resetBall();
+        } 
+        if(ballYPos < 10){
+            p3Score--;
+            resetBall();
+        }
     }
 
     function checkCollision() {
@@ -159,8 +181,6 @@ function Game(params) {
                 ballYVel *= -1;
             }
         }
-        
-        return false;
     }
 
     const setup = (p5, canvasParentRef) => {
@@ -178,14 +198,33 @@ function Game(params) {
             p5.rect(0,4*i,600,4);
         }
 
-        //Score for player playing **DELETE WHEN DONE
-        //MAKE SURE TO MAKE THIS VISIBLE FOR EACH PALYER
-        //FOR THEIR OWN INDIVIDUAL SCORE**
+        //Score for player playing 
          p5.fill (245, 236, 205,20);
-         p5.textSize (400);
          p5.textFont ('sans-serif');
-         p5.text ('5',190,440);
 
+         // Bottom Player 
+         p5.textSize (100);
+         p5.text ('' + p4Score,270,550);
+         p5.textSize (48);
+         p5.text ('Ishan',245,465);
+
+         // Left Player 
+         p5.textSize (100);
+         p5.text ('' + p1Score,50,340);
+         p5.textSize (48);
+         p5.text ('Ryan',25,255);
+
+         // Right Player 
+         p5.textSize (100);
+         p5.text ('' + p3Score,490,340);
+         p5.textSize (48);
+         p5.text ('Aryan',450,255);
+
+         // Top Player 
+         p5.textSize (100);
+         p5.text ('' + p2Score,270,150);
+         p5.textSize (48);
+         p5.text ('Min',260,75);
 
         //ball and paddle colors
         p5.fill(255,255,255);
@@ -206,14 +245,8 @@ function Game(params) {
         p5.rect(p4X,p4Y, 100,10, 10);
 
         //movement
+        checkCollision();
         updateBallPosition();
-
-        if (checkCollision()) {
-            ballYVel *= -1;
-            if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
-                ballXVel *= -1;
-            }
-        }
     }
 
 
