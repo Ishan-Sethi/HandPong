@@ -44,7 +44,6 @@ export default function App({ Component }) {
           </Route>
         </Switch>
       </Router>
-      <Home />
     </ChakraProvider>
   )
 }
