@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react"
 import { useState } from 'react';
 import socket from '../../store/socket'
+import ButtonSend from '../home/Home'
 
 export default function Lobby() {
     return (
@@ -20,15 +21,18 @@ export default function Lobby() {
             justifyContent="center"
             bg="brand.500" //background colour
         >
-            <Box bg="brand.900" w="50%" p={10} colour="white">
-                <Textarea Title="HANDPONG" />
-            </Box>
-
-            <Center bg="tomato" w="50" h="100px" color="white">
-                <Textarea Title="HANDPONG" />
-            </Center>
+            <HStack spacing="12px">
+                <Center>
+                    <Input
+                    placeholder="Enter your Nickname"
+                    variant="unstyled"
+                    bg="white"
+                    p="3"
+                    type="lobbyCode"
+                    />
+                </Center>
+                <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame")}/>
+            </HStack>
         </Flex>
     )
-
-
 }

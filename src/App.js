@@ -35,7 +35,7 @@ export default function App({ Component }) {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/lobby" component={Lobby}/>
-          <Route exact="/game" component={Game}/>
+          <Route exact path="/game" component={Game}/>
         </Switch>
       </Router>
     </ChakraProvider>

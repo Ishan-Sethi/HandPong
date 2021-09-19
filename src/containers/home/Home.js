@@ -9,7 +9,7 @@ import {
 import { useState } from 'react';
 import socket from '../../store/socket'
 
-function ButtonSend(props) {
+export function ButtonSend(props) {
   const [pressed, setPressed] = useState(false);
 
   return (
