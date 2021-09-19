@@ -7,10 +7,18 @@ import {
   HStack
 } from "@chakra-ui/react"
 import { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import socket from '../../store/socket'
 
 export function ButtonSend(props) {
   const [pressed, setPressed] = useState(false);
+  const history = useHistory();
+
+  const handleClick = () => {
+    setPressed(true);
+    props.function();
+    history.push(props.destination);
+  }
 
   return (
     <Center>
@@ -19,10 +27,7 @@ export function ButtonSend(props) {
         size="lg" 
         colorScheme="button" 
         color="white"
-        onClick={() => {
-          setPressed(true);
-          props.function();
-        }}
+        onClick={handleClick}
       >
         {props.text}
       </Button>
@@ -31,8 +36,7 @@ export function ButtonSend(props) {
 }
 
 function Home() {
-  const [roomCode, setRoomCode] = useState("");
-  const handleChange = (event) => {setRoomCode(event.target.value)}
+  const [roomCode, setRoomCode] = useState();
 
   return (
     <Flex 
@@ -46,7 +50,7 @@ function Home() {
         <Text fontSize="5xl" color="brand.900">TITLE TEXT IPSUM</Text>
       </Center>
 
-      <ButtonSend text="Create a Lobby!" function={()=>socket.emit("newGame")}/>
+      <ButtonSend text="Create a Lobby!" destination="/lobby" function={()=>socket.emit("newGame")}/>
 
       <Center>
         <Text fontSize="2xl" color="brand.900">or</Text>
@@ -66,10 +70,10 @@ function Home() {
               p="3"
               type="lobbyCode" 
               value={roomCode}
-              onChange={handleChange}
+              onChange={(event) => {setRoomCode(event.target.value)}}
             />
           </Center>
-          <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame", roomCode)}/>
+          <ButtonSend text="Join a Lobby!" destination="/lobby" function={() => socket.emit("joinGame", roomCode)}/>
         </HStack>
       </Flex>
     </Flex>

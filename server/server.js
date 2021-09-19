@@ -34,6 +34,9 @@ io.on('connection', client => {
     }
     
     function handleJoinGame(lobbyName) {
+        console.log(io.sockets.adapter.rooms)
+        console.log(lobbyName)
+        
         const room = io.sockets.adapter.rooms.get(lobbyName);
 
         let allUsers;
