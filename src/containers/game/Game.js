@@ -100,6 +100,8 @@ function Game() {
           ctx.fillStyle = "red";
           ctx.arc(Math.abs(640-predictions[0].landmarks[0][0]), predictions[0].landmarks[0][1], 5, 0, 3 * Math.PI);
           ctx.fill();
+        }
+    }
 
     function checkCollision() {
         if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y){
@@ -200,4 +202,3 @@ function Game() {
 }
 
 export default Game
-
