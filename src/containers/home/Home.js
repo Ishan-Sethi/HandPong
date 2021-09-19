@@ -6,14 +6,11 @@ import {
   Input,
   HStack
 } from "@chakra-ui/react"
-import socketClient from "socket.io-client";
 import { useState } from 'react';
-
-const SERVER = "http://192.168.1.171:8080";
-var socket = socketClient(SERVER, {transports: ['websocket']});
+import socket from '../../store/socket'
 
 function ButtonSend(props) {
-  const [pressed, setPressed] = useState(0);
+  const [pressed, setPressed] = useState(false);
 
   return (
     <Center>
@@ -33,7 +30,7 @@ function ButtonSend(props) {
   )
 }
 
-function Home() {
+function Home(props) {
   return (
     <Flex 
       minH="100vh" 
