@@ -9,7 +9,7 @@ import { socket, GAME_CODE } from '../../store/socket'
 const WIDTH = 600;
 const HEIGHT = 600;
 
-function Game(params) {
+function Game() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     var [game, setGame] = useState({});
@@ -17,8 +17,7 @@ function Game(params) {
     useEffect(()=>{
         socket.emit("getState")
         socket.on("recieveState", (state)=>setGame( JSON.parse(state) ))
-        console.log(game)
-    }, [])
+    }, [game])
     
     const setup = (p5, canvasParentRef) => {
         p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
@@ -101,7 +100,9 @@ function Game(params) {
           ctx.fillStyle = "red";
           ctx.arc(Math.abs(640-predictions[0].landmarks[0][0]), predictions[0].landmarks[0][1], 5, 0, 3 * Math.PI);
           ctx.fill();
-          p4X = Math.abs(640-predictions[0].landmarks[0][0]) - 100;
+
+          let pX = Math.abs(640-predictions[0].landmarks[0][0]) - 100;
+          socket.emit("movement", pX);
         }
     }
     runHandpose();

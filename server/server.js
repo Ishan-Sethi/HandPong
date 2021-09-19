@@ -84,7 +84,6 @@ io.on('connection', client => {
 
         var lobbyCode = clientRooms[client.id];
         var playerId = client.number;
-        console.log(client.number)
 
         state[lobbyCode].players[playerId-1].username = name;
 
@@ -98,8 +97,22 @@ io.on('connection', client => {
         startGameInterval(lobbyCode);
     }
 
-    function handleMovement() {
+    function handleMovement(pX) {
+        var lobbyCode = clientRooms[client.id];
+        var playerId = client.number;
 
+        switch(playerId-1) {
+            case 0:
+                state[lobbyCode].players[0].pos[1] = pX;
+            case 1:
+                state[lobbyCode].players[1].pos[0] = -pX;
+            case 2:
+                state[lobbyCode].players[2].pos[1] = -pX;
+            case 3:
+                state[lobbyCode].players[3].pos[0] = pX;
+        }
+
+        emitRecieveState(lobbyCode);
     }
 });
 
