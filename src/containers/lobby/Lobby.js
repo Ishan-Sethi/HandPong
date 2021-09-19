@@ -19,7 +19,8 @@ function Lobby() {
     var playerName2 = '';
     var playerName3 = '';
     var playerName4 = '';
-    var i = 0;
+    var i = 0;   
+    var m = 0; 
 
     const setup = (p5, canvasParentRef) => {
         var cnv = p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef);
@@ -38,9 +39,33 @@ function Lobby() {
     }
 
     const draw = p5 => {
+        //arc rotation
         i+=0.05;
+        
         //bg
         p5.background(222,255,252);
+
+        //Player1
+        p5.stroke(201,142,205,100);
+        p5.fill (230,230,250,50);
+        p5.textSize (50);
+        p5.textFont ('sans-serif');
+        p5.text ('1',135,418);
+
+        //Player2
+        p5.stroke(21,21,21,50);
+        p5.fill (151,151,151,50);
+        p5.text ('2',535,418);
+
+        //Player3
+        p5.stroke(255,192,203,50);
+        p5.fill (255,192,203,50);
+        p5.text ('3',935,418);
+
+        //Player4
+        p5.stroke(152,251,152,50);
+        p5.fill (152,251,152,50);
+        p5.text ('4',1335,418);
 
         //arcs
         p5.strokeWeight(4);
@@ -52,13 +77,11 @@ function Lobby() {
         p5.arc(150,400,50,100,25+i, Math.PI+25+i,true);
         p5.arc(150,400,100,50,0+i, 123+i,true);
         p5.arc(150,400,120,120,Math.PI+i, 150+i,true);
-        //Player Name
-        p5.fill (245, 236, 205,20);
-        p5.textSize (24);
-        p5.textFont ('sans-serif');
-        p5.text ('5',190,440);
+        
+        
 
         //arcs player2
+        p5.noFill(); 
         p5.stroke(86,69,76,150);
         p5.arc(550,400,100,100,20+i, 120+i,true);
         p5.arc(550,400,50,100,40+i, Math.PI+25+i,true);
@@ -66,6 +89,7 @@ function Lobby() {
         p5.arc(550,400,120,120,220+i, 150+i,true);
 
         //arcs player3
+        p5.noFill(); 
         p5.stroke(231,200,221,200);
         p5.arc(950,400,150,100,40+i, 180+i,true);
         p5.arc(950,400,50,100,60+i, Math.PI+25+i,true);
@@ -73,10 +97,13 @@ function Lobby() {
         p5.arc(950,400,120,120,220+i, 150+i,true);
 
         //arcs player4
+        p5.noFill(); 
         p5.stroke(166,226,198, 200);
         p5.arc(1350,400,100,100,0+i, 180+i,true);
         p5.arc(1350,400,50,100,20+i, Math.PI+25+i,true);
-        p5.arc(1350,400,150,40,220+i, 150+i,true);
+        p5.arc(1350,400,150,50,220+i, 150+i,true);
+        
+
     }
 
     return (
