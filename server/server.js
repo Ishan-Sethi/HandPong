@@ -13,6 +13,8 @@ const FRAME_RATE = 60;
 
 io.on('connection', client => {
 
+    client.on('getState', handleGetState)
+
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
 
@@ -20,6 +22,12 @@ io.on('connection', client => {
 
     client.on('startGame', handleStartGame);
     client.on('movement', handleMovement);
+
+    function handleGetState() {
+        var lobbyCode = clientRooms[client.id];
+        io.sockets.in(lobbyCode)
+            .emit("recieveState", JSON.stringify(state[lobbyCode]));
+    }
 
     function handleNewGame() {
         var lobbyCode;
@@ -83,7 +91,7 @@ io.on('connection', client => {
         state[lobbyCode].players[playerId-1].username = name;
 
         io.sockets.in(lobbyCode)
-            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
+            .emit("recieveState", JSON.stringify(state[lobbyCode]));
 
         console.log(state[lobbyCode])
     }
@@ -92,7 +100,7 @@ io.on('connection', client => {
         var lobbyCode = clientRooms[client.id];
         state[lobbyCode] = initPong(state[lobbyCode]);
         io.sockets.in(lobbyCode)
-            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
+            .emit("recieveState", JSON.stringify(state[lobbyCode]));
         startGameInterval(lobbyCode);
     }
 
@@ -105,7 +113,7 @@ function startGameInterval(roomCode) {
     const intervalId = setInterval(() => {
         updateBallPosition(state[roomCode]);
         io.sockets.in(roomCode)
-            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
+            .emit("recieveState", JSON.stringify(state[lobbyCode]));
     }, 1000 / FRAME_RATE);
 }
 

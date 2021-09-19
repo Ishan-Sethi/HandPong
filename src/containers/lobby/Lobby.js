@@ -21,7 +21,8 @@ function Lobby() {
     var [ani , setAni] = useState(0);
 
     useEffect(()=>{
-        socket.on("recieve_state", (state)=>setLobby( JSON.parse(state) ))
+        socket.on("recieveState", (state)=>setLobby( JSON.parse(state) ))
+        socket.emit("getState")
     }, [])
 
     const setup = (p5, canvasParentRef) => {

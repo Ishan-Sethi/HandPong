@@ -12,7 +12,8 @@ function Game(params) {
     var [game, setGame] = useState({});
 
     useEffect(()=>{
-        socket.on("recieve_state", (state)=>setGame( JSON.parse(state) ))
+        socket.emit("getState")
+        socket.on("recieveState", (state)=>setGame( JSON.parse(state) ))
     }, [])
     
     const setup = (p5, canvasParentRef) => {
@@ -48,7 +49,7 @@ function Game(params) {
         p5.rect(game.players[0].pos[0], game.players[0].pos[1], 10, 100, 10);
         p5.rect(game.players[1].pos[0], game.players[1].pos[1], 10, 100, 10);
         p5.rect(game.players[2].pos[0], game.players[2].pos[1], 100, 10, 10);
-        p5.rect(STgameATE.players[3].pos[0], game.players[3].pos[1], 100, 10, 10);
+        p5.rect(game.players[3].pos[0], game.players[3].pos[1], 100, 10, 10);
     }
 
     // Running hand tracking model
