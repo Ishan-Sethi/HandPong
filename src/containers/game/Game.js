@@ -104,8 +104,7 @@ function Game(params) {
     }
 
     function checkCollision() {
-        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y){
-            console.log("IM HIT IM HIT IM HIT")
+        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y ){
             return true;
         } else{
             return false;
@@ -159,6 +158,9 @@ function Game(params) {
 
         if (checkCollision()) {
             ballYVel *= -1;
+            if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
+                ballXVel *= -1;
+            }
         }
     }
 
