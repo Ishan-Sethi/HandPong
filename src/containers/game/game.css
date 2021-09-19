@@ -113,6 +113,10 @@
   margin-left: 0.5rem;
 }
 
+body {
+  background-color:#e2e4f6 !important;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

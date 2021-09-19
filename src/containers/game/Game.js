@@ -42,22 +42,24 @@ function Game(params) {
     const drawHand = (predictions, ctx) => {
         // Check if we have predictions
         if (predictions.length > 0) {
-          /*
+          
           // Loop through each prediction
           predictions.forEach((prediction) => {
             const landmarks = prediction.landmarks;
             // Drawing a point on each landmark
             for (let i = 0; i < landmarks.length; i++) {
               ctx.beginPath();
-              ctx.fillStyle = "red";
-              ctx.arc(landmarks[i][0], landmarks[i][1], 5, 0, 3 * Math.PI);
+              ctx.fillStyle = "#yadefffc";
+              ctx.arc(Math.abs(640 - landmarks[i][0]), landmarks[i][1], 5, 0, 3 * Math.PI);
               ctx.fill();
             }
-          });*/
+          });
+          /*
           ctx.beginPath();
           ctx.fillStyle = "red";
           ctx.arc(Math.abs(640-predictions[0].landmarks[0][0]), predictions[0].landmarks[0][1], 5, 0, 3 * Math.PI);
           ctx.fill();
+          */
           p4X = Math.abs(640-predictions[0].landmarks[0][0]) - 100;
         }
     }
@@ -134,11 +136,11 @@ function Game(params) {
                 p1Y -= 20 * Math.random();
             }
         p1Y += (5 * (Math.random() - 0.5));
-        if (ballXPos > WIDTH-10){
+        if (ballXPos > WIDTH){
             p2Score--;
             resetBall();
         }
-        if (ballXPos < 10) {
+        if (ballXPos < 0) {
             p1Score--;
             resetBall();
         }
@@ -156,6 +158,11 @@ function Game(params) {
         // Bottom Player Collision
         if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y ){
             ballYVel *= -1;
+            if (ballYVel < 0) {
+                ballYVel = -1 * Math.random() * 12;
+            } else {
+                ballYVel = Math.random() * 12;
+            }
             if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
                 ballXVel *= -1;
             }
@@ -163,6 +170,11 @@ function Game(params) {
         // Top Player Collision
         else if (ballXPos <= (p3X + 100) && ballXPos >= p3X && ballYPos <= (p3Y + 10) && ballYPos >= p3Y) {
             ballYVel *= -1;
+            if (ballYVel < 0) {
+                ballYVel = -1 * Math.random() * 12;
+            } else {
+                ballYVel = Math.random() * 12;
+            }
             if ((ballXPos > p3X + 50 && ballXVel < 0) || (ballXPos < p3X + 50 && ballXVel > 0)){
                 ballXVel *= -1;
             }
@@ -170,6 +182,11 @@ function Game(params) {
         // Right Player Collision
         else if (ballYPos <= (p2Y + 100) && ballYPos >= p2Y && ballXPos <= (p2X + 10) && ballXPos >= p2X) {
             ballXVel *= -1;
+            if (ballXVel < 0) {
+                ballXVel = -1 * Math.random() * 12;
+            } else {
+                ballXVel = Math.random() * 12;
+            }
             if ((ballYPos > p2Y + 50 && ballYVel < 0) || (ballYPos < p2Y + 50 && ballXVel > 0)){
                 ballYVel *= -1;
             }
@@ -177,6 +194,11 @@ function Game(params) {
         // Left Player Collision
         else if (ballYPos <= (p1Y + 100) && ballYPos >= p1Y && ballXPos <= (p1X + 10) && ballXPos >= p1X) {
             ballXVel *= -1;
+            if (ballXVel < 0) {
+                ballXVel = -1 * Math.random() * 12;
+            } else {
+                ballXVel = Math.random() * 12;
+            }
             if ((ballYPos > p1Y + 50 && ballYVel < 0) || (ballYPos < p1Y + 50 && ballYVel > 0)){
                 ballYVel *= -1;
             }
@@ -216,13 +238,13 @@ function Game(params) {
 
          // Right Player 
          p5.textSize (100);
-         p5.text ('' + p3Score,490,340);
+         p5.text ('' + p2Score,490,340);
          p5.textSize (48);
          p5.text ('Aryan',450,255);
 
          // Top Player 
          p5.textSize (100);
-         p5.text ('' + p2Score,270,150);
+         p5.text ('' + p3Score,270,150);
          p5.textSize (48);
          p5.text ('Min',260,75);
 
