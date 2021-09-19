@@ -1,14 +1,15 @@
-import * as React from "react"
+import { useEffect, useState } from "react"
 import { ChakraProvider , extendTheme } from "@chakra-ui/react"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import Home from './containers/home/Home'
 import Game from './containers/game/Game'
+import Lobby from './containers/lobby/Lobby'
+
 const theme = extendTheme({
   colors: {
     brand: {
@@ -32,12 +33,9 @@ export default function App({ Component }) {
     <ChakraProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/game">
-            <Game/>
-          </Route>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/lobby" component={Lobby}/>
+          <Route exact="/game" component={Game}/>
         </Switch>
       </Router>
     </ChakraProvider>
