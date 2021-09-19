@@ -9,7 +9,6 @@ import {
 import Home from './containers/home/Home'
 import Lobby from './containers/lobby/Lobby'
 import Game from './containers/game/Game'
-import Lobby from './containers/home/Lobby'
 const theme = extendTheme({
   colors: {
     brand: {
