@@ -1,7 +1,7 @@
 import { color } from '@chakra-ui/styled-system';
 import Sketch from 'react-p5'
 import React, {useEffect, useRef, useState} from "react";
-import styles from '../handtrack/handtrack.css';
+import styles from './game.css';
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
@@ -16,7 +16,7 @@ function Game(params) {
     const runHandpose = async() =>{
         const net = await handpose.load();
         console.log('Handpose model loaded'); 
-        setInterval(()=>{detect(net)}, 100);
+        setInterval(()=>{detect(net)}, 50);
       }
 
     // Checking for the hand position
@@ -71,8 +71,8 @@ function Game(params) {
     var c1,c2
 
     //ball varaibles
-    var ballXVel = 4;
-    var ballYVel = 4;
+    var ballXVel = 10;
+    var ballYVel = 10;
     var ballXPos = WIDTH/2;
     var ballYPos = HEIGHT/2;
 
@@ -101,6 +101,14 @@ function Game(params) {
         }
         ballXPos += ballXVel;
         ballYPos += ballYVel;
+    }
+
+    function checkCollision() {
+        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y ){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     const setup = (p5, canvasParentRef) => {
@@ -147,6 +155,13 @@ function Game(params) {
 
         //movement
         updateBallPosition();
+
+        if (checkCollision()) {
+            ballYVel *= -1;
+            if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
+                ballXVel *= -1;
+            }
+        }
     }
 
 
