@@ -51,7 +51,7 @@ function Home() {
       bg="brand.500"
     >
       <Center>
-        <Text fontSize="5xl" color="brand.900">TITLE TEXT IPSUM</Text>
+        <Text fontSize="5xl" color="brand.900">THE NEXT GEN HAND-PONG</Text>
       </Center>
 
       <ButtonSend text="Create a Lobby!" destination="/lobby" function={()=>socket.emit("newGame")}/>

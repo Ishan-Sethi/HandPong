@@ -88,7 +88,7 @@ io.on('connection', client => {
         console.log(state[lobbyCode])
     }
 
-    function handleStartGame(type) {
+    function handleStartGame() {
         var lobbyCode = clientRooms[client.id];
         state[lobbyCode] = initPong(state[lobbyCode]);
         io.sockets.in(lobbyCode)
@@ -104,6 +104,8 @@ io.on('connection', client => {
 function startGameInterval(roomCode) {
     const intervalId = setInterval(() => {
         updateBallPosition(state[roomCode]);
+        io.sockets.in(roomCode)
+            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
     }, 1000 / FRAME_RATE);
 }
 

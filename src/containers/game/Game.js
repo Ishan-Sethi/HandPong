@@ -4,7 +4,7 @@ import styles from './game.css';
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
 
-import { socket, GAME_CODE, STATE } from '../../store/socket'
+import { socket, GAME_CODE } from '../../store/socket'
 
 function Game(params) {
     const webcamRef = useRef(null);
