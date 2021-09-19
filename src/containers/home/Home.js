@@ -30,7 +30,10 @@ function ButtonSend(props) {
   )
 }
 
-function Home(props) {
+function Home() {
+  const [roomCode, setRoomCode] = useState("");
+  const handleChange = (event) => {setRoomCode(event.target.value)}
+
   return (
     <Flex 
       minH="100vh" 
@@ -62,9 +65,11 @@ function Home(props) {
               bg="white"
               p="3"
               type="lobbyCode" 
+              value={roomCode}
+              onChange={handleChange}
             />
           </Center>
-          <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame")}/>
+          <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame", roomCode)}/>
         </HStack>
       </Flex>
     </Flex>

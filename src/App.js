@@ -33,15 +33,9 @@ export default function App({ Component }) {
     <ChakraProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/handtrack">
-            <Handtrack />
-          </Route>
-          <Route path="/lobby">
-            <Lobby />
-          </Route>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/lobby" component={Lobby}/>
+          <Route exact path="/handtrack" component={Handtrack}/>
         </Switch>
       </Router>
     </ChakraProvider>

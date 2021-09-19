@@ -11,7 +11,7 @@ function createLobbyCode(codes) {
     for(let i = 0; i < 5; i++) {
         code += TEXTS[ Math.floor(Math.random() * TEXTS.length) ];
     }
-    for(let lobby in codes) {
+    for(let lobby in Object.values(codes)) {
         if (lobby == code) return false
     }
     return code

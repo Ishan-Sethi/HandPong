@@ -6,36 +6,44 @@ var io = require('socket.io')(server);
 const PORT = process.env.PORT || 8080;
 
 const state = {};
-const clientRooms = [];
+const clientRooms = {};
 
 io.on('connection', client => {
+
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
-    client.on('startGame', handleJoinGame);
-    
-    client.on('movement', handleJoinGame);
+
+    client.on('changeName', handleChangeName);
+
+    client.on('startGame', handleStartGame);
+    client.on('movement', handleMovement);
 
     function handleNewGame() {
         var lobbyCode;
         do { lobbyCode = createLobbyCode(clientRooms) }
         while (!lobbyCode);
 
+        clientRooms[client.id] = lobbyCode;
+
         state[lobbyCode] = initLobby();
         client.join(lobbyCode);
         client.number = 1;
         client.emit('init', 1);
+
+        console.log(lobbyCode)
     }
+    
     function handleJoinGame(lobbyName) {
-        const room = io.sockets.adapter.rooms[lobbyName];
+        const room = io.sockets.adapter.rooms.get(lobbyName);
 
         let allUsers;
-        if (room) {
-            allUsers = room.sockets;
+        if (room) { 
+            allUsers = room;
         }
 
         let numClients = 0;
         if (allUsers) {
-            numClients = Object.keys(allUsers).length;
+            numClients = allUsers.size;
         }
 
         if (numClients === 0) {
@@ -47,9 +55,25 @@ io.on('connection', client => {
             return;
         }
         
+        clientRooms[client.id] = lobbyName;
+
         client.join(lobbyName);
         client.number = numClients+1;
         client.emit("init", client.number);
+
+        console.log(client.number)
+    }
+
+    function handleChangeName() {
+        
+    }
+
+    function handleStartGame() {
+
+    }
+
+    function handleMovement() {
+
     }
 });
 
