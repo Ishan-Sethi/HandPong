@@ -6,21 +6,29 @@ import {
   Input,
   HStack
 } from "@chakra-ui/react"
-var clientio = require('socket.io-client')
-var socket = clientio();
+import socketClient from "socket.io-client";
+import { useState } from 'react';
+
+const SERVER = "http://192.168.1.171:8080";
+var socket = socketClient(SERVER, {transports: ['websocket']});
 
 function ButtonSend(props) {
+  const [pressed, setPressed] = useState(0);
+
   return (
     <Center>
-      <Button 
-        isLoading = {false} //edit this later seeing if it was pressed
+      <Button
+        isLoading = {pressed}
         size="lg" 
         colorScheme="button" 
         color="white"
-        onClick={props.function}
+        onClick={() => {
+          setPressed(true);
+          props.function();
+        }}
       >
         {props.text}
-      </Button>  
+      </Button>
     </Center>
   )
 }
@@ -38,7 +46,7 @@ function Home() {
         <Text fontSize="5xl" color="brand.900">TITLE TEXT IPSUM</Text>
       </Center>
 
-      <ButtonSend text="Create a Lobby!" function={()=>socket.emit("newRoom")}/>
+      <ButtonSend text="Create a Lobby!" function={()=>socket.emit("newGame")}/>
 
       <Center>
         <Text fontSize="2xl" color="brand.900">or</Text>
@@ -59,7 +67,7 @@ function Home() {
               type="lobbyCode" 
             />
           </Center>
-          <ButtonSend text="Join a Lobby!"/>
+          <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame")}/>
         </HStack>
       </Flex>
     </Flex>
