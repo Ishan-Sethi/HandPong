@@ -16,7 +16,7 @@ function Game(params) {
     const runHandpose = async() =>{
         const net = await handpose.load();
         console.log('Handpose model loaded'); 
-        setInterval(()=>{detect(net)}, 100);
+        setInterval(()=>{detect(net)}, 250);
       }
 
     // Checking for the hand position
@@ -71,8 +71,8 @@ function Game(params) {
     var c1,c2
 
     //ball varaibles
-    var ballXVel = 4;
-    var ballYVel = 4;
+    var ballXVel = 2;
+    var ballYVel = 2;
     var ballXPos = WIDTH/2;
     var ballYPos = HEIGHT/2;
 
@@ -101,6 +101,15 @@ function Game(params) {
         }
         ballXPos += ballXVel;
         ballYPos += ballYVel;
+    }
+
+    function checkCollision() {
+        if (ballXPos <= (p4X + 50) && ballXPos >= (p4X - 50) && ballYPos <= (p4Y + 7) && ballYPos >= (p4Y - 7)){
+            console.log("IM HIT IM HIT IM HIT")
+            return true;
+        } else{
+            return false;
+        }
     }
 
     const setup = (p5, canvasParentRef) => {
@@ -147,6 +156,10 @@ function Game(params) {
 
         //movement
         updateBallPosition();
+
+        if (checkCollision()) {
+            ballYVel *= -1;
+        }
     }
 
 
