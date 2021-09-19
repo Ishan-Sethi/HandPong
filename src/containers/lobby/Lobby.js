@@ -4,6 +4,7 @@ import {
     Flex,
     Center,
     Input,
+    Box,
     Text,
     HStack,
     Spacer,
@@ -31,16 +32,24 @@ function Lobby() {
         p5.background(255, 0, 200)
     }
 
+    const windowResize = (p5) => {
+        p5.resizeCanvas(WIDTH, HEIGHT);
+    }
+
     const draw = p5 => {
         setAni(ani+=0.05);
         //bg
         p5.background(222,255,252);
 
         //Player1
-        p5.stroke(201,142,205,100);
-        p5.fill (230,230,250,50);
         p5.textSize (50);
         p5.textFont ('sans-serif');
+        p5.stroke(0,0,0,100);
+        p5.fill (0,0,0,100);
+        p5.text("Game Code: "+GAME_CODE, 510, 80);
+
+        p5.stroke(201,142,205,100);
+        p5.fill (230,230,250,50);
         p5.text ('1',135,418);
         p5.textSize (32);
         if(lobby) {
@@ -48,19 +57,34 @@ function Lobby() {
         }
 
         //Player2
+        p5.textSize (50);
         p5.stroke(21,21,21,50);
         p5.fill (151,151,151,50);
         p5.text ('2',535,418);
+        p5.textSize (32);
+        if(lobby) {
+            p5.text (lobby.players[1].username,510,500);
+        }
 
         //Player3
+        p5.textSize (50);
         p5.stroke(255,192,203,50);
         p5.fill (255,192,203,50);
         p5.text ('3',935,418);
+        p5.textSize (32);
+        if(lobby) {
+            p5.text (lobby.players[2].username,900,500);
+        }
 
         //Player4
+        p5.textSize (50);
         p5.stroke(152,251,152,50);
         p5.fill (152,251,152,50);
         p5.text ('4',1335,418);
+        p5.textSize (32);
+        if(lobby) {
+            p5.text (lobby.players[3].username,1330,500);
+        }
 
         //arcs
         p5.strokeWeight(4);
@@ -108,6 +132,7 @@ function Lobby() {
             display="inline-block"
             bg="brand.400"
         >     
+            <Sketch setup={setup} windowResize={setup} draw={draw} />
             <Flex 
                 minH="100vh"
                 h="100vh"
@@ -116,10 +141,9 @@ function Lobby() {
                 alignItem="center"
             >
                 <Flex direction="column">
-                    <Sketch setup={setup} windowResize={setup} draw={draw} />
                     <HStack m={5} spacing="10vw">
-                        <ButtonSend text="Leave Lobby" destination="/" function={()=>socket.emit("leaveLobby")}/>
-                        <ButtonSend text="Start Game" function={()=>socket.emit("startGame")}/>
+                        <ButtonSend text="Leave Lobby" destination="/" function={()=>{}}/>
+                        <ButtonSend text="Start Game" destination="/game" function={()=>socket.emit("startGame", "pong")}/>
                     </HStack>
                     <Spacer />
                     <HStack m={5} spacing="5vw">

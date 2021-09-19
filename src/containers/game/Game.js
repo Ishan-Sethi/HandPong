@@ -1,15 +1,23 @@
 import Sketch from 'react-p5'
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from './game.css';
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
 
+import { socket, GAME_CODE, STATE } from '../../store/socket'
+
 function Game(params) {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+    var [game, setGame] = useState({});
 
+    useEffect(()=>{
+        socket.on("recieve_state", (state)=>setGame( JSON.parse(state) ))
+    }, [])
+    
     const setup = (p5, canvasParentRef) => {
-        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
+        console.log(game);
+        p5.createCanvas(game.canvasSize.width, game.canvasSize.height).parent(canvasParentRef)
     }
 
     const draw = p5 => {
@@ -30,18 +38,17 @@ function Game(params) {
          p5.textFont ('sans-serif');
          p5.text ('5',190,440);
 
-
         //ball and paddle colors
         p5.fill(255,255,255);
 
         //ball
-        p5.ellipse(ballXPos, ballYPos, 20);
+        p5.ellipse(game.ball.pos[0], game.ball.pos[1], 20);
 
         //player paddles
-        p5.rect(p1X,p1Y, 10,100, 10);
-        p5.rect(p2X,p2Y, 10,100, 10);
-        p5.rect(p3X,p3Y, 100,10, 10);
-        p5.rect(p4X,p4Y, 100,10, 10);
+        p5.rect(game.players[0].pos[0], game.players[0].pos[1], 10, 100, 10);
+        p5.rect(game.players[1].pos[0], game.players[1].pos[1], 10, 100, 10);
+        p5.rect(game.players[2].pos[0], game.players[2].pos[1], 100, 10, 10);
+        p5.rect(STgameATE.players[3].pos[0], game.players[3].pos[1], 100, 10, 10);
     }
 
     // Running hand tracking model

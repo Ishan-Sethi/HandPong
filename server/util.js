@@ -18,21 +18,13 @@ function createLobbyCode(codes) {
 }
 
 function initLobby() {
-    var player = {
-        username: "",
-    }
     return {
-        players: [player,player,player,player],
+        players: [{username: ""}, {username: ""}, {username: ""}, {username: ""}],
     }
 }
 
-//ball varaibles
-var ballXVel = 10;
-var ballYVel = 10;
-
 function initPong(lobby) {
     var pongState = {
-        game: "pong",
         players: [],
         canvasSize: {width: 600, height: 600},
         ball: {pos: [300, 300], vel: [10, 10]}, //change vel later

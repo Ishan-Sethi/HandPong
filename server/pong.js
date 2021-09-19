@@ -1,4 +1,6 @@
-const FRAME_RATE = 60;
+module.exports = {
+    updateBallPosition,
+}
 
 function updateBallPosition(state) {
     //redundant code later, will be replaced with score
@@ -30,4 +32,7 @@ function checkCollision(state, playerId) {
          && state.ball.pos[0] >= state.players[playerId].pos[1] )
     } 
 }
-    
+
+function checkForWinner() {
+
+}

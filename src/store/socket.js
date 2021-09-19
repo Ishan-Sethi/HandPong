@@ -1,10 +1,10 @@
 import socketClient from "socket.io-client";
 
 const SERVER = "http://192.168.1.171:8080";
+
 export const socket = socketClient(SERVER, {transports: ['websocket']});
+export var GAME_CODE = "";
 
-export const GAME_CODE = "";
-
-socket.on("recieve_code", (code)=>{
+socket.on("init", (code)=>{
     GAME_CODE = code;
 });

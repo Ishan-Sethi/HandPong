@@ -1,5 +1,6 @@
 const { log } = require('console');
 const { createLobbyCode, initLobby, initPong } = require('./util')
+const { updateBallPosition } = require('./pong')
 
 var app = require('express')();
 var server = require('http').createServer(app);
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 8080;
 
 const state = {};
 const clientRooms = {};
+const FRAME_RATE = 60;
 
 io.on('connection', client => {
 
@@ -29,9 +31,10 @@ io.on('connection', client => {
         state[lobbyCode] = initLobby();
         client.join(lobbyCode);
         client.number = 1;
-        client.emit('init', 1);
+        client.emit('init', lobbyCode);
 
         console.log(state[lobbyCode])
+        
     }
     
     function handleJoinGame(lobbyName) {
@@ -50,6 +53,8 @@ io.on('connection', client => {
             numClients = allUsers.size;
         }
 
+        console.log(allUsers)
+
         if (numClients === 0) {
             client.emit("unknown code");
             return;
@@ -63,7 +68,7 @@ io.on('connection', client => {
 
         client.join(lobbyName);
         client.number = numClients+1;
-        client.emit("init", client.number);
+        client.emit("init", lobbyName);
 
         console.log(client.number)
     }
@@ -73,22 +78,22 @@ io.on('connection', client => {
 
         var lobbyCode = clientRooms[client.id];
         var playerId = client.number;
+        console.log(client.number)
 
-        state[lobbyCode].players[playerId].username = name;
-        client.emit("recieve_state", JSON.stringify(state[lobbyCode]) );
+        state[lobbyCode].players[playerId-1].username = name;
 
-        console.log(state[lobbyCode].players[playerId].username)
+        io.sockets.in(lobbyCode)
+            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
+
+        console.log(state[lobbyCode])
     }
 
     function handleStartGame(type) {
-        switch(type) {
-            case "pong":
-                state[lobbyCode] = initPong(state[lobbyCode]);
-                startGameInterval(lobbyCode);
-            default:
-                console.log("can't start");
-                return;
-        }
+        var lobbyCode = clientRooms[client.id];
+        state[lobbyCode] = initPong(state[lobbyCode]);
+        io.sockets.in(lobbyCode)
+            .emit("recieve_state", JSON.stringify(state[lobbyCode]));
+        startGameInterval(lobbyCode);
     }
 
     function handleMovement() {
@@ -98,12 +103,7 @@ io.on('connection', client => {
 
 function startGameInterval(roomCode) {
     const intervalId = setInterval(() => {
-        switch( state[roomCode].game ) {
-            case "pong":
-                updateBallPosition();
-            default:
-                return;
-        }
+        updateBallPosition(state[roomCode]);
     }, 1000 / FRAME_RATE);
 }
 
