@@ -9,6 +9,7 @@ import {
 
 import Home from './containers/home/Home'
 import Game from './containers/game/Game'
+import Lobby from './containers/home/Lobby'
 const theme = extendTheme({
   colors: {
     brand: {
@@ -37,6 +38,9 @@ export default function App({ Component }) {
           </Route>
           <Route path="/game">
             <Game/>
+          </Route>
+          <Route path="/lobby">
+            <Lobby/>
           </Route>
         </Switch>
       </Router>
