@@ -1,25 +1,19 @@
-import { color } from '@chakra-ui/styled-system';
-import React from 'react'
+import { useState } from 'react'
 import Sketch from 'react-p5'
 import {
     Flex,
     Center,
-    Text,
-    Button,
     Input,
     HStack,
-    Textarea,
-    Box
+    Spacer,
 } from "@chakra-ui/react"
-import { useState } from 'react';
 import socket from '../../store/socket'
 import { ButtonSend } from '../home/Home'
 
-function Lobby() {
-    //width and height of monitor
-    const WIDTH = 1500;
-    const HEIGHT = 750;
+const WIDTH = 1500;
+const HEIGHT = 750;
 
+function Lobby() {
     // player names
     var playerName1 = '';
     var playerName2 = '';
@@ -28,8 +22,19 @@ function Lobby() {
     var i = 0;
 
     const setup = (p5, canvasParentRef) => {
-        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
+        var cnv = p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef);
+        var x = (p5.windowWidth - WIDTH) / 2;
+        var y = (p5.windowHeight - HEIGHT) / 2;
+        cnv.position(x, y);
+        p5.background(255, 0, 200)
+    }
 
+    const windowResized = (p5) => {
+        var cnv = p5.createCanvas(WIDTH, HEIGHT);
+        var x = (p5.windowWidth - WIDTH) / 2;
+        var y = (p5.windowHeight - HEIGHT) / 2;
+        cnv.position(x, y);
+        p5.background(255, 0, 200)
     }
 
     const draw = p5 => {
@@ -72,34 +77,47 @@ function Lobby() {
         p5.arc(1350,400,100,100,0+i, 180+i,true);
         p5.arc(1350,400,50,100,20+i, Math.PI+25+i,true);
         p5.arc(1350,400,150,40,220+i, 150+i,true);
-        
-
     }
-
 
     return (
         <Flex
-            minH="100vh" //styling, react shortens, minimum height
-            h="100vh" //height - 100 viewport height
-            width="100%"
+            minH="100vh"
+            h="100vh"
+            width="100vw"
+            direction="column"
             justifyContent="center"
-            paddingLeft={150}
-            alignItem= "center"
+            alignItem="center"
             display="inline-block"
+            bg="brand.400"
         >     
-            <Sketch setup={setup} draw={draw} />
-            <HStack spacing="12px">
-                <Center>
-                    <Input
-                    placeholder="Enter your Nickname"
-                    variant="unstyled"
-                    bg="white"
-                    p="3"
-                    type="lobbyCode"
-                    />
-                </Center>
-                <ButtonSend text="Join a Lobby!" function={()=>socket.emit("joinGame")}/>
-            </HStack>
+            <Sketch setup={setup} windowResized={windowResized} draw={draw} />
+            <Flex 
+                minH="100vh"
+                h="100vh"
+                width="100vw"
+                justifyContent="center"
+                alignItem="center"
+            >
+                <Flex direction="column">
+                    <HStack m={5} spacing="30vw">
+                        <ButtonSend text="Leave Lobby"  function={()=>socket.emit("leaveLobby")}/>
+                        <ButtonSend text="Start Game" function={()=>socket.emit("starmGame")}/>
+                    </HStack>
+                    <Spacer />
+                    <HStack m={5} spacing="5vw">
+                        <Center>
+                            <Input
+                            placeholder="Enter your Nickname"
+                            variant="unstyled"
+                            bg="white"
+                            p="3"
+                            type="lobbyCode"
+                            />
+                        </Center>
+                        <ButtonSend text="Set Name" function={()=>socket.emit("setName")}/>
+                    </HStack>
+                </Flex>
+            </Flex>
         </Flex>
     )
 }

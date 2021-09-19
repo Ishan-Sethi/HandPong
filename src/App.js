@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react"
 import { ChakraProvider , extendTheme } from "@chakra-ui/react"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-
 import Home from './containers/home/Home'
 import Lobby from './containers/lobby/Lobby'
 import Game from './containers/game/Game'
+
 const theme = extendTheme({
   colors: {
     brand: {

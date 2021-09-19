@@ -10,7 +10,7 @@ function updateBallPosition(state) {
     }
 
     for(let i = 0; i < 4; i++) {
-        checkCollision( i)
+        checkCollision(state, i);
     }
 
     state.ball.pos[0] += state.ball.vel[0];

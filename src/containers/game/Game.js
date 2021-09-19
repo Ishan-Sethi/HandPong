@@ -5,16 +5,51 @@ import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
 
 function Game(params) {
-
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+
+    const setup = (p5, canvasParentRef) => {
+        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
+    }
+
+    const draw = p5 => {
+        p5.noStroke();
+        p5.background(126, 90, 155);
+
+        //background gradient
+        for (let i = 0; i <175; i++) {
+            p5.fill (i+25,i+25,20,65);
+            p5.rect(0,4*i,600,4);
+        }
+
+        //Score for player playing **DELETE WHEN DONE
+        //MAKE SURE TO MAKE THIS VISIBLE FOR EACH PALYER
+        //FOR THEIR OWN INDIVIDUAL SCORE**
+         p5.fill (245, 236, 205,20);
+         p5.textSize (400);
+         p5.textFont ('sans-serif');
+         p5.text ('5',190,440);
+
+
+        //ball and paddle colors
+        p5.fill(255,255,255);
+
+        //ball
+        p5.ellipse(ballXPos, ballYPos, 20);
+
+        //player paddles
+        p5.rect(p1X,p1Y, 10,100, 10);
+        p5.rect(p2X,p2Y, 10,100, 10);
+        p5.rect(p3X,p3Y, 100,10, 10);
+        p5.rect(p4X,p4Y, 100,10, 10);
+    }
 
     // Running hand tracking model
     const runHandpose = async() =>{
         const net = await handpose.load();
         console.log('Handpose model loaded'); 
-        setInterval(()=>{detect(net)}, 50);
-      }
+        setInterval( () => {detect(net)}, 50);
+    }
 
     // Checking for the hand position
     const detect = async(net) => {
@@ -59,43 +94,6 @@ function Game(params) {
         }
     }
     runHandpose();
-
-    const setup = (p5, canvasParentRef) => {
-        p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
-    }
-
-    const draw = p5 => {
-        //bg
-        p5.noStroke();
-        p5.background(126, 90, 155);
-
-        //background gradient
-        for (let i = 0; i <175; i++) {
-            p5.fill (i+25,i+25,20,65);
-            p5.rect(0,4*i,600,4);
-        }
-
-        //Score for player playing **DELETE WHEN DONE
-        //MAKE SURE TO MAKE THIS VISIBLE FOR EACH PALYER
-        //FOR THEIR OWN INDIVIDUAL SCORE**
-         p5.fill (245, 236, 205,20);
-         p5.textSize (400);
-         p5.textFont ('sans-serif');
-         p5.text ('5',190,440);
-
-
-        //ball and paddle colors
-        p5.fill(255,255,255);
-
-        //ball
-        p5.ellipse(ballXPos, ballYPos, 20);
-
-        //player paddles
-        p5.rect(p1X,p1Y, 10,100, 10);
-        p5.rect(p2X,p2Y, 10,100, 10);
-        p5.rect(p3X,p3Y, 100,10, 10);
-        p5.rect(p4X,p4Y, 100,10, 10);
-    }
 
     return (
         <div>

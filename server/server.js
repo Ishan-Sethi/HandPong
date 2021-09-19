@@ -76,6 +76,7 @@ io.on('connection', client => {
         switch(type) {
             case "pong":
                 state[lobbyCode] = initPong(state[lobbyCode]);
+                
                 startGameInterval(lobbyCode);
             default:
                 console.log("can't start");
