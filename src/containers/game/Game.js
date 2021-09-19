@@ -102,9 +102,50 @@ function Game() {
           ctx.fill();
         }
     }
+    runHandpose();
+
+    //width and height of monitor
+    const WIDTH = 600;
+    const HEIGHT = 600;
+    
+    //background variables
+    var c1,c2
+
+    //ball varaibles
+    var ballXVel = 2;
+    var ballYVel = 2;
+    var ballXPos = WIDTH/2;
+    var ballYPos = HEIGHT/2;
+
+    //player1 variables
+    var p1X=10;
+    var p1Y=250;
+
+    //player2 variables
+    var p2X=580;
+    var p2Y=250;
+
+    //player3 variables
+    var p3X=250;
+    var p3Y=10;
+
+    //player4 variables
+    var p4X=250;
+    var p4Y=580;
+
+    function updateBallPosition() {
+        if (ballXPos > WIDTH-10 || ballXPos < 10){
+            ballXVel *= -1;
+        }
+        if (ballYPos > HEIGHT-10 || ballYPos < 0){
+            ballYVel *= -1;
+        }
+        ballXPos += ballXVel;
+        ballYPos += ballYVel;
+    }
 
     function checkCollision() {
-        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y){
+        if (ballXPos <= (p4X + 50) && ballXPos >= (p4X - 50) && ballYPos <= (p4Y + 7) && ballYPos >= (p4Y - 7)){
             console.log("IM HIT IM HIT IM HIT")
             return true;
         } else{
