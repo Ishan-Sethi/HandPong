@@ -1,7 +1,7 @@
 import { color } from '@chakra-ui/styled-system';
 import Sketch from 'react-p5'
 import React, {useEffect, useRef, useState} from "react";
-import styles from '../handtrack/handtrack.css';
+import styles from './game.css';
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
