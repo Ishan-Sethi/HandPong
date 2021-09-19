@@ -10,7 +10,7 @@ function updateBallPosition(state) {
     }
 
     for(let i = 0; i < 4; i++) {
-        checkCollision( i)
+        checkCollision(i)
     }
 
     state.ball.pos[0] += state.ball.vel[0];
@@ -18,8 +18,16 @@ function updateBallPosition(state) {
 }
 
 function checkCollision(state, playerNum) {
-    return (state.ball.pos[0] <= (state.players[ playerNum ].pos[0] + 100) 
-         && state.ball.pos[0] >= state.players[ playerNum ].pos[0] 
-         && state.ball.pos[1] <= (state.players[ playerNum ].pos[1] + 10) 
-         && state.ball.pos[1] >= state.players[ playerNum ].pos[1] )
+    if (playerNum == 4 || playerNum == 2) {
+        return (state.ball.pos[0] <= (state.players[playerNum].pos[0] + 100) 
+         && state.ball.pos[0] >= state.players[playerNum].pos[0] 
+         && state.ball.pos[1] <= (state.players[playerNum].pos[1] + 10) 
+         && state.ball.pos[1] >= state.players[playerNum].pos[1] )
+    }  else {
+        return (state.ball.pos[1] <= (state.players[playerNum].pos[0] + 100) 
+         && state.ball.pos[1] >= state.players[playerNum].pos[0] 
+         && state.ball.pos[0] <= (state.players[playerNum].pos[1] + 10) 
+         && state.ball.pos[0] >= state.players[playerNum].pos[1] )
+    } 
 }
+    
