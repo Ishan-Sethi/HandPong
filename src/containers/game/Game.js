@@ -16,7 +16,7 @@ function Game(params) {
     const runHandpose = async() =>{
         const net = await handpose.load();
         console.log('Handpose model loaded'); 
-        setInterval(()=>{detect(net)}, 50);
+        setInterval(()=>{detect(net)}, 100);
       }
 
     // Checking for the hand position
@@ -71,10 +71,10 @@ function Game(params) {
     var c1,c2
 
     //ball varaibles
-    var ballXVel = 10;
-    var ballYVel = 10;
-    var ballXPos = WIDTH/2;
-    var ballYPos = HEIGHT/2;
+    var ballXVel = 12;
+    var ballYVel = 12;
+    var ballXPos = WIDTH/2 - 5;
+    var ballYPos = 100;
 
     //player1 variables
     var p1X=10;
@@ -101,14 +101,66 @@ function Game(params) {
         }
         ballXPos += ballXVel;
         ballYPos += ballYVel;
+        // Top Player
+        if (ballYVel < 0 && ballYPos < 150 + (100 * (Math.random() - 0.5)))
+            if(p3X + 50 < ballXPos) {
+               p3X += 20 * Math.random();
+            } else {
+                p3X -= 20 * Math.random();
+            }
+        p3X += (5 * (Math.random() - 0.5));
+
+        // Right Player
+        if (ballXVel > 0 && ballXPos > 450 + (100 * (Math.random() - 0.5)))
+            if(p2Y + 50 < ballYPos) {
+               p2Y += 20 * Math.random();
+            } else {
+                p2Y -= 20 * Math.random();
+            }
+        p2Y += (5 * (Math.random() - 0.5));
+
+        // Left Player
+        if (ballXVel < 0 && ballXPos < 150 + (100 * (Math.random() - 0.5)))
+            if(p1Y + 50 < ballYPos) {
+               p1Y += 20 * Math.random();
+            } else {
+                p1Y -= 20 * Math.random();
+            }
+        p1Y += (5 * (Math.random() - 0.5));
+        
     }
 
     function checkCollision() {
+        // Bottom Player Collision
         if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y ){
-            return true;
-        } else{
-            return false;
+            ballYVel *= -1;
+            if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
+                ballXVel *= -1;
+            }
+        } 
+        // Top Player Collision
+        else if (ballXPos <= (p3X + 100) && ballXPos >= p3X && ballYPos <= (p3Y + 10) && ballYPos >= p3Y) {
+            ballYVel *= -1;
+            if ((ballXPos > p3X + 50 && ballXVel < 0) || (ballXPos < p3X + 50 && ballXVel > 0)){
+                ballXVel *= -1;
+            }
+        } 
+        // Right Player Collision
+        else if (ballYPos <= (p2Y + 100) && ballYPos >= p2Y && ballXPos <= (p2X + 10) && ballXPos >= p2X) {
+            ballXVel *= -1;
+            if ((ballYPos > p2Y + 50 && ballYVel < 0) || (ballYPos < p2Y + 50 && ballXVel > 0)){
+                ballYVel *= -1;
+            }
         }
+        // Left Player Collision
+        else if (ballYPos <= (p1Y + 100) && ballYPos >= p1Y && ballXPos <= (p1X + 10) && ballXPos >= p1X) {
+            ballXVel *= -1;
+            if ((ballYPos > p1Y + 50 && ballYVel < 0) || (ballYPos < p1Y + 50 && ballYVel > 0)){
+                ballYVel *= -1;
+            }
+        }
+        
+        return false;
     }
 
     const setup = (p5, canvasParentRef) => {
