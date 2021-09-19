@@ -1,14 +1,11 @@
-import { color } from '@chakra-ui/styled-system';
 import Sketch from 'react-p5'
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef } from "react";
 import styles from './game.css';
-import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam"
 
-
 function Game(params) {
-    // Webcam things
+
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
@@ -63,54 +60,6 @@ function Game(params) {
     }
     runHandpose();
 
-    //width and height of monitor
-    const WIDTH = 600;
-    const HEIGHT = 600;
-    
-    //background variables
-    var c1,c2
-
-    //ball varaibles
-    var ballXVel = 10;
-    var ballYVel = 10;
-    var ballXPos = WIDTH/2;
-    var ballYPos = HEIGHT/2;
-
-    //player1 variables
-    var p1X=10;
-    var p1Y=250;
-
-    //player2 variables
-    var p2X=580;
-    var p2Y=250;
-
-    //player3 variables
-    var p3X=250;
-    var p3Y=10;
-
-    //player4 variables
-    var p4X=250;
-    var p4Y=580;
-
-    function updateBallPosition() {
-        if (ballXPos > WIDTH-10 || ballXPos < 10){
-            ballXVel *= -1;
-        }
-        if (ballYPos > HEIGHT-10 || ballYPos < 0){
-            ballYVel *= -1;
-        }
-        ballXPos += ballXVel;
-        ballYPos += ballYVel;
-    }
-
-    function checkCollision() {
-        if (ballXPos <= (p4X + 100) && ballXPos >= p4X && ballYPos <= (p4Y + 10) && ballYPos >= p4Y ){
-            return true;
-        } else{
-            return false;
-        }
-    }
-
     const setup = (p5, canvasParentRef) => {
         p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef)
     }
@@ -141,29 +90,12 @@ function Game(params) {
         //ball
         p5.ellipse(ballXPos, ballYPos, 20);
 
-        //player1 paddle
+        //player paddles
         p5.rect(p1X,p1Y, 10,100, 10);
-
-        //player2 paddle
         p5.rect(p2X,p2Y, 10,100, 10);
-
-        //player3 paddle
         p5.rect(p3X,p3Y, 100,10, 10);
-
-        //player4 paddle
         p5.rect(p4X,p4Y, 100,10, 10);
-
-        //movement
-        updateBallPosition();
-
-        if (checkCollision()) {
-            ballYVel *= -1;
-            if ((ballXPos > p4X + 50 && ballXVel < 0) || (ballXPos < p4X + 50 && ballXVel > 0)){
-                ballXVel *= -1;
-            }
-        }
     }
-
 
     return (
         <div>

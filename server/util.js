@@ -26,16 +26,27 @@ function initLobby() {
     }
 }
 
+//ball varaibles
+var ballXVel = 10;
+var ballYVel = 10;
+
 function initPong(lobby) {
     var pongState = {
+        game: "pong",
         players: [],
-        ball: {x: 0, y: 0},
+        canvasSize: {width: 600, height: 600},
+        ball: {pos: [300, 300], vel: [10, 10]}, //change vel later
     }
 
     for(let i = 0; i < 4; i++) {
         pongState.players[i] = lobby.players[i];
-        pongState.players[i].position = {x: 0, y: 0};
+        pongState.players[i].score = 0;
     } 
+
+    pongState.players[0].pos = [10, 250];
+    pongState.players[1].pos = [580, 250];
+    pongState.players[2].pos = [250, 10];
+    pongState.players[3].pos = [250, 580];
 
     return pongState;
 }

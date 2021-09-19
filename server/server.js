@@ -1,3 +1,4 @@
+const { log } = require('console');
 const { createLobbyCode, initLobby, initPong } = require('./util')
 
 var app = require('express')();
@@ -71,14 +72,32 @@ io.on('connection', client => {
         
     }
 
-    function handleStartGame() {
-
+    function handleStartGame(type) {
+        switch(type) {
+            case "pong":
+                state[lobbyCode] = initPong(state[lobbyCode]);
+                startGameInterval(lobbyCode);
+            default:
+                console.log("can't start");
+                return;
+        }
     }
 
     function handleMovement() {
 
     }
 });
+
+function startGameInterval(roomCode) {
+    const intervalId = setInterval(() => {
+        switch( state[roomCode].game ) {
+            case "pong":
+                updateBallPosition();
+            default:
+                return;
+        }
+    }, 1000 / FRAME_RATE);
+}
 
 server.listen(PORT, () => { 
     console.log('listening on *:'+PORT);
